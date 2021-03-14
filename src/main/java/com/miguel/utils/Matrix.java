@@ -27,7 +27,7 @@ public class Matrix {
                 List<Double> data = new ArrayList<>();
 
                 for (int j = 0; j < cols; ++j) {
-                    data.add(Numbers.randomDouble(-1.001, 1.001));
+                    data.add(Numbers.randomDouble(-10.0, 10.0));
                 }
 
                 this.data.add(data);

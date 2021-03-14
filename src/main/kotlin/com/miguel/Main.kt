@@ -1,11 +1,12 @@
 package com.miguel
 
+import com.google.gson.*
 import com.miguel.neural.Network
 import com.miguel.utils.Numbers
 import com.miguel.utils.Vector
 import com.miguel.webots.Controller
 import com.miguel.webots.youbot.YouBot
-import java.util.stream.Collectors
+import java.io.FileWriter
 import kotlin.math.*
 
 object Main {
@@ -23,7 +24,7 @@ object Main {
         var pos = Vector(center.x, .05, center.z);
 
         var angle = .0
-        var comp = .001
+        var comp = .007
         var lastTime = .0
         var count = 0
         var current = 0
@@ -36,7 +37,7 @@ object Main {
 
         val networks = ArrayList<Network>()
 
-        val generationFitness = ArrayList<Double>()
+        val generationFitness: MutableList<Double> = ArrayList()
         val errors = ArrayList<Double>()
 
         for (i in 0..maxPerGeneration) {
@@ -44,8 +45,6 @@ object Main {
         }
 
         var network = networks[0]
-
-        println("Geracao $count de $maxGenerations")
 
         while (controller.step() != -1) {
             youBot.setWheelsSpeed(arrayOf(10.0, -10.0, 10.0, -10.0).toDoubleArray())
@@ -107,20 +106,23 @@ object Main {
 
                         generationFitness.add(bestFitness)
 
-                        val father = networks[0].copy()
-                        val mother = networks[1].copy()
-
-                        networks.clear()
+                        var father = networks[0].copy()
+                        var mother = networks[1].copy()
 
                         for (i in 0..maxPerGeneration) {
+                            networks.remove(networks[i])
+
                             val net = Network(topology)
 
                             Network.crossOver(net, father, mother);
 
-                            net.mutate(.2)
+                            //net.mutate(.05)
 
                             networks.add(net);
                         }
+
+                        father = null
+                        mother = null
 
                         println("Best Fitness $bestFitness")
 
@@ -153,6 +155,20 @@ object Main {
 
             output = null
         }
+
+        println(generationFitness)
+
+        val gson = GsonBuilder().setPrettyPrinting().create()
+
+        val data = HashMap<String, Any>()
+
+        data["fitness"] = generationFitness.toList()
+
+        val writer = FileWriter("fitness.json")
+
+        gson.toJson(data, writer)
+
+        writer.close()
 
         controller.supervisor.delete();
     }
