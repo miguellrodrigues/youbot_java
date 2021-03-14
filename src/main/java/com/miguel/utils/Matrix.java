@@ -90,5 +90,39 @@ public class Matrix {
         return mat;
     }
 
+    void assignArray(double[] array) {
+        if (this.rows * this.cols != array.length) {
+            throw new Error("Assign array bad arguments");
+        }
 
+        for (int i = 0, count = 0; i < this.rows; ++i) {
+            for (int j = 0; i < this.cols; ++j) {
+                this.setValue(i, j, array[count++]);
+            }
+        }
+    }
+
+    void add(Matrix other) {
+        for (int i = 0; i < this.rows; ++i) {
+            for (int j = 0; j < this.cols; ++j) {
+                this.setValue(i, j, this.getValue(i, j) + other.getValue(i, j));
+            }
+        }
+    }
+
+    void subtract(Matrix other) {
+        for (int i = 0; i < this.rows; ++i) {
+            for (int j = 0; j < this.cols; ++j) {
+                this.setValue(i, j, this.getValue(i, j) - other.getValue(i, j));
+            }
+        }
+    }
+
+    void scalar(double x) {
+        for (int i = 0; i < this.rows; ++i) {
+            for (int j = 0; j < this.cols; ++j) {
+                this.setValue(i, j, this.getValue(i, j) * x);
+            }
+        }
+    }
 }
