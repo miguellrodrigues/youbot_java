@@ -21,19 +21,19 @@ object Main {
         val center = youBot.position
         val initialPosition = Vector(center.x, center.y, center.z)
 
-        var pos = Vector(center.x, .05, center.z);
+        val pos = Vector(center.x, .05, center.z);
 
         var angle = .0
-        var comp = .007
+        var comp = .003
         var lastTime = .0
         var count = 0
         var current = 0
 
-        val maxVelocity = 8.0
+        val maxVelocity = 5.0
         val targetFitness = .001
         val maxGenerations = 200
         val maxPerGeneration = 5
-        val timeInterval = 60
+        val timeInterval = 90
 
         val networks = ArrayList<Network>()
 
@@ -47,8 +47,6 @@ object Main {
         var network = networks[0]
 
         while (controller.step() != -1) {
-            youBot.setWheelsSpeed(arrayOf(10.0, -10.0, 10.0, -10.0).toDoubleArray())
-
             val time = controller.supervisor.time
 
             val youBotPosition = youBot.position
@@ -116,7 +114,7 @@ object Main {
 
                             Network.crossOver(net, father, mother);
 
-                            //net.mutate(.05)
+                            net.mutate(.2)
 
                             networks.add(net);
                         }
@@ -139,15 +137,15 @@ object Main {
 
             var output = network.predict(listOf(abs(angleError), if (angleError > 0) 1.0 else .0))
 
-            if (output[0] > .8) {
+            if (output[0] > .0) {
                 youBot.setWheelsSpeed(arrayOf(maxVelocity, -maxVelocity, maxVelocity, -maxVelocity).toDoubleArray())
             }
 
-            if (output[1] > .8) {
+            if (output[1] > .0) {
                 youBot.setWheelsSpeed(arrayOf(-maxVelocity, maxVelocity, -maxVelocity, maxVelocity).toDoubleArray())
             }
 
-            if (output[2] > .8) {
+            if (output[2] > .0) {
                 youBot.setWheelsSpeed(arrayOf(.0, .0, .0, .0).toDoubleArray())
             }
 
@@ -164,11 +162,15 @@ object Main {
 
         data["fitness"] = generationFitness.toList()
 
-        val writer = FileWriter("fitness.json")
+        val dataWriter = FileWriter("fitness.json")
+        val netWriter = FileWriter("network.json")
 
-        gson.toJson(data, writer)
+        gson.toJson(data, dataWriter)
 
-        writer.close()
+        gson.toJson(network, Network::class.java, netWriter)
+
+        dataWriter.close()
+        netWriter.close()
 
         controller.supervisor.delete();
     }
