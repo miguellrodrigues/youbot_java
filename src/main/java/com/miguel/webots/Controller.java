@@ -23,15 +23,15 @@ public class Controller {
         }
     }
 
-    int step() {
+    public int step() {
         return this.supervisor.step(this.samplingRate);
     }
 
-    Supervisor getSupervisor() {
+    public Supervisor getSupervisor() {
         return this.supervisor;
     }
 
-    List<Device> getAllDevices() {
+    public List<Device> getAllDevices() {
         List<Device> devices = new ArrayList<>();
 
         for (int i = 0; i < getSupervisor().getNumberOfDevices(); ++i) {
@@ -43,57 +43,61 @@ public class Controller {
         return devices;
     }
 
-    List<Device> getDevicesByTypeList(List<Integer> types) {
+    public Device getDeviceByName(String name) {
+        return getAllDevices().stream().filter(device -> device.getName().equalsIgnoreCase(name)).collect(Collectors.toList()).get(0);
+    }
+
+    public List<Device> getDevicesByTypeList(List<Integer> types) {
         return getAllDevices().stream().filter(device -> types.contains(device.getNodeType())).collect(Collectors.toList());
     }
 
-    double[] getObjectOrientation(String nodeDef) {
+    public double[] getObjectOrientation(String nodeDef) {
         return getSupervisor().getFromDef(nodeDef).getOrientation();
     }
 
-    double[] getObjectPosition(String nodeDef) {
+    public double[] getObjectPosition(String nodeDef) {
         return getSupervisor().getFromDef(nodeDef).getPosition();
     }
 
-    double[] getObjectRotation(String nodeDef) {
+    public double[] getObjectRotation(String nodeDef) {
         Field rotationField = supervisor.getFromDef(nodeDef).getField("rotation");
 
         return rotationField.getSFVec3f();
     }
 
-    void setObjectPosition(String nodeDef, double[] position) {
+    public void setObjectPosition(String nodeDef, double[] position) {
         Field translationField = supervisor.getFromDef(nodeDef).getField("rotation");
 
         translationField.setSFVec3f(position);
     }
 
-    void setObjectRotation(String nodeDef, double[] rotation) {
+    public void setObjectRotation(String nodeDef, double[] rotation) {
         Field rotationField = supervisor.getFromDef(nodeDef).getField("rotation");
 
         rotationField.setSFRotation(rotation);
     }
 
-    List<PositionSensor> getPositionSensors() {
+    public List<PositionSensor> getPositionSensors() {
         return getDevicesByTypeList(Collections.singletonList(Node.POSITION_SENSOR)).stream().map(device -> (PositionSensor) device).collect(Collectors.toList());
     }
 
-    List<DistanceSensor> getDistanceSensors() {
+    public List<DistanceSensor> getDistanceSensors() {
         return getDevicesByTypeList(Collections.singletonList(Node.DISTANCE_SENSOR)).stream().map(device -> (DistanceSensor) device).collect(Collectors.toList());
     }
 
-    List<LightSensor> getLightSensors() {
+    public List<LightSensor> getLightSensors() {
         return getDevicesByTypeList(Collections.singletonList(Node.LIGHT_SENSOR)).stream().map(device -> (LightSensor) device).collect(Collectors.toList());
     }
 
-    List<TouchSensor> getTouchSensors() {
+    public List<TouchSensor> getTouchSensors() {
         return getDevicesByTypeList(Collections.singletonList(Node.TOUCH_SENSOR)).stream().map(device -> (TouchSensor) device).collect(Collectors.toList());
     }
 
-    List<Motor> getMotors() {
+    public List<Motor> getMotors() {
         return getDevicesByTypeList(Collections.singletonList(Node.ROTATIONAL_MOTOR)).stream().map(device -> (Motor) device).collect(Collectors.toList());
     }
 
-    void setupSensors() {
+    public void setupSensors() {
         var positionSensors = getPositionSensors();
         var distanceSensors = getDistanceSensors();
         var lightSensors = getLightSensors();
@@ -105,7 +109,7 @@ public class Controller {
         touchSensors.forEach(touchSensor -> touchSensor.enable(this.samplingRate));
     }
 
-    void setupMotors(int[] indexes, float position) {
+    public void setupMotors(int[] indexes, float position) {
         var motors = getMotors();
 
         motors.forEach(motor -> {
@@ -114,7 +118,7 @@ public class Controller {
         });
     }
 
-    void setMotorVelocity(int index, float velocity) {
+    public void setMotorVelocity(int index, float velocity) {
         getMotors().get(index).setVelocity(velocity);
     }
 }
