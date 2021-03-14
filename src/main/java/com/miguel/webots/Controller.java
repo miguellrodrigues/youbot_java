@@ -1,7 +1,6 @@
 package com.miguel.webots;
 
 import com.cyberbotics.webots.controller.*;
-import com.miguel.utils.Vector;
 
 import java.util.ArrayList;
 import java.util.Collections;

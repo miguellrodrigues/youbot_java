@@ -5,7 +5,6 @@ import com.miguel.webots.Controller;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -67,9 +66,9 @@ public class Arm {
     }
 
     public Arm(Controller controller) {
-        this.elements = new ArrayList<>();
-
         this.controller = controller;
+
+        this.elements = new ArrayList<>();
 
         for (int i = 1; i < 6; ++i) {
             this.elements.add((Motor) controller.getDeviceByName("arm" + i));
