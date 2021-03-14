@@ -22,6 +22,8 @@ public class Angle {
 
         r.clear();
 
+        r = null;
+
         return angle;
     }
 }

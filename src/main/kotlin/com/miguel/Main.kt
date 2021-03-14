@@ -18,15 +18,17 @@ object Main {
         val topology = listOf(2, 16, 16, 16, 3)
 
         val center = youBot.position
-        val initialPosition: Vector = center
+        val initialPosition = Vector(center.x, center.y, center.z)
+
+        var pos = Vector(center.x, .05, center.z);
 
         var angle = .0
-        var comp = .01
+        var comp = .001
         var lastTime = .0
         var count = 0
         var current = 0
 
-        val maxVelocity = 6.0
+        val maxVelocity = 8.0
         val targetFitness = .001
         val maxGenerations = 200
         val maxPerGeneration = 5
@@ -55,10 +57,14 @@ object Main {
 
             angle += comp
 
-            val x = 0.8 * cos(angle) + initialPosition.x
-            val z = 0.8 * sin(angle) + initialPosition.z
+            val x = 0.8 * cos(angle)
+            val z = 0.8 * sin(angle)
 
-            controller.setObjectPosition("box", listOf(x, .05, z).toDoubleArray())
+            pos.add(x, .0, z)
+
+            controller.setObjectPosition("box", listOf(pos.x, .05, pos.z).toDoubleArray())
+
+            pos.subtract(x, .0, z)
 
             val boxPosition = Vector(controller.getObjectPosition("box"))
 
@@ -86,7 +92,7 @@ object Main {
 
                     network.fitness = fitness
 
-                    controller.setObjectPosition("youBot", listOf(initialPosition.x, initialPosition.y, initialPosition.z).toDoubleArray());
+                    controller.setObjectPosition("youBot", arrayOf(initialPosition.x, initialPosition.y, initialPosition.z).toDoubleArray());
 
                     println("Individuo $current Fitness $fitness FE $fitnessError")
 
@@ -125,10 +131,11 @@ object Main {
                 }
 
                 network = networks[current]
+
+                System.gc()
             }
 
-
-            val output = network.predict(listOf(abs(angleError), if (angleError > 0) 1.0 else .0))
+            var output = network.predict(listOf(abs(angleError), if (angleError > 0) 1.0 else .0))
 
             if (output[0] > .8) {
                 youBot.setWheelsSpeed(arrayOf(maxVelocity, -maxVelocity, maxVelocity, -maxVelocity).toDoubleArray())
@@ -142,8 +149,9 @@ object Main {
                 youBot.setWheelsSpeed(arrayOf(.0, .0, .0, .0).toDoubleArray())
             }
 
+            output.clear();
 
-            System.gc()
+            output = null
         }
 
         controller.supervisor.delete();

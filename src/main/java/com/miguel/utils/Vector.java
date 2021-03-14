@@ -30,11 +30,24 @@ public class Vector {
         this.z += other.z;
     }
 
+    public void add(double x, double y, double z) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+    }
+
     public void subtract(@NotNull Vector other) {
         this.x -= other.x;
         this.y -= other.y;
         this.z -= other.z;
     }
+
+    public void subtract(double x, double y, double z) {
+        this.x -= x;
+        this.y -= y;
+        this.z -= z;
+    }
+
 
     public void multiply(@NotNull Vector other) {
         this.x *= other.x;

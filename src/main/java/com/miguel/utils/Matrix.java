@@ -27,8 +27,7 @@ public class Matrix {
                 List<Double> data = new ArrayList<>();
 
                 for (int j = 0; j < cols; ++j) {
-//                    this.data[i][j] = .0;
-                    data.add(Numbers.randomDouble(-1.0, 1.0));
+                    data.add(Numbers.randomDouble(-1.001, 1.001));
                 }
 
                 this.data.add(data);
@@ -38,14 +37,13 @@ public class Matrix {
                 List<Double> data = new ArrayList<>();
                 for (int j = 0; j < cols; ++j) {
                     data.add(.0);
-//                    this.data[i][j] = Numbers.randomDouble(-.501, .501);
                 }
                 this.data.add(data);
             }
         }
     }
 
-    void clear() {
+    public void clear() {
         this.data.clear();
     }
 
@@ -109,7 +107,7 @@ public class Matrix {
         return mat;
     }
 
-    public void assignArray(double[] array) {
+    public void assignArray(@NotNull double[] array) {
         if (this.rows * this.cols != array.length) {
             throw new Error("Assign array bad arguments");
         }

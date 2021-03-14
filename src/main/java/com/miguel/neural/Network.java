@@ -9,11 +9,11 @@ import java.util.List;
 
 public class Network {
 
-    private List<Integer> topology;
-    private int topologySize;
+    private final List<Integer> topology;
+    private final int topologySize;
 
-    private List<Layer> layers;
-    private List<Matrix> weightMatrices;
+    private final List<Layer> layers;
+    private final List<Matrix> weightMatrices;
 
     private List<Double> errors;
     private List<Double> derivedErrors;
@@ -85,6 +85,10 @@ public class Network {
                 this.layers.get(i + 1).setNeuronValue(j, r.getValue(j, 0) + this.bias);
             }
         }
+
+        r = null;
+        left = null;
+        right = null;
     }
 
     public List<Double> predict(List<Double> input) {
@@ -93,7 +97,11 @@ public class Network {
 
         Matrix outputMatrix = this.layers.get(this.topologySize - 1).convertActivatedValues();
 
-        return Matrix.matrixToList(outputMatrix);
+        var out = Matrix.matrixToList(outputMatrix);
+
+        outputMatrix = null;
+
+        return out;
     }
 
     public void mutate(double rate) {

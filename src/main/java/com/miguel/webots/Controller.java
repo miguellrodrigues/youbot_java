@@ -61,19 +61,27 @@ public class Controller {
     public double[] getObjectRotation(String nodeDef) {
         Field rotationField = supervisor.getFromDef(nodeDef).getField("rotation");
 
-        return rotationField.getSFVec3f();
+        var vec = rotationField.getSFVec3f();
+
+        rotationField = null;
+
+        return vec;
     }
 
     public void setObjectPosition(String nodeDef, double[] position) {
         Field translationField = supervisor.getFromDef(nodeDef).getField("translation");
 
         translationField.setSFVec3f(position);
+
+        translationField = null;
     }
 
     public void setObjectRotation(String nodeDef, double[] rotation) {
         Field rotationField = supervisor.getFromDef(nodeDef).getField("rotation");
 
         rotationField.setSFRotation(rotation);
+
+        rotationField = null;
     }
 
     public List<PositionSensor> getPositionSensors() {
@@ -106,6 +114,11 @@ public class Controller {
         distanceSensors.forEach(distanceSensor -> distanceSensor.enable(this.samplingRate));
         lightSensors.forEach(lightSensor -> lightSensor.enable(this.samplingRate));
         touchSensors.forEach(touchSensor -> touchSensor.enable(this.samplingRate));
+
+        positionSensors = null;
+        distanceSensors = null;
+        lightSensors = null;
+        touchSensors = null;
     }
 
     public void setupMotors(int[] indexes, float position) {
@@ -115,6 +128,8 @@ public class Controller {
             motor.setPosition(position);
             motor.setVelocity(.0);
         });
+
+        motors = null;
     }
 
     public void setMotorVelocity(int index, float velocity) {

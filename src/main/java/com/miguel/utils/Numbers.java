@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Numbers {
 
     public static double randomDouble(double min, double max) {
-        return (ThreadLocalRandom.current().nextDouble() * ((max - min) + 1.0)) + min;
+        return (new Random().nextDouble() * (max - min)) + min;
     }
 
     public static int randomInt(int min, int max) {
