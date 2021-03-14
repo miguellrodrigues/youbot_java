@@ -74,7 +74,7 @@ public class Arm {
             this.elements.add((Motor) controller.getDeviceByName("arm" + i));
         }
 
-        controller.setMotorVelocity(Arms.ARM2.i, 3.1415f);
+        this.controller.setMotorVelocity(Arms.ARM2.i, 3.1415f);
     }
 
     void setArmsPosition(@NotNull List<Arms> arms, double[] positions) {
@@ -83,10 +83,8 @@ public class Arm {
         }
     }
 
-    void change(ArrayList<Double> positions) {
-        double[] pos = {positions.get(0), positions.get(1), positions.get(2)};
-
-        this.setArmsPosition(Collections.singletonList(Arms.ARM1), pos);
+    void change(double[] positions) {
+        this.setArmsPosition(Collections.singletonList(Arms.ARM1), positions);
     }
 
     void reset() {

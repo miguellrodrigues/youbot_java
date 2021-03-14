@@ -18,6 +18,10 @@ public class Angle {
     public double calculateAngle(Matrix rotationMatrix) {
         Matrix r = this.rotation_x_matrix.multiply(rotationMatrix);
 
-        return Math.atan2(r.getValue(1, 0), r.getValue(0, 0));
+        double angle = Math.atan2(r.getValue(1, 0), r.getValue(0, 0));;
+
+        r.clear();
+
+        return angle;
     }
 }

@@ -65,7 +65,7 @@ public class Controller {
     }
 
     public void setObjectPosition(String nodeDef, double[] position) {
-        Field translationField = supervisor.getFromDef(nodeDef).getField("rotation");
+        Field translationField = supervisor.getFromDef(nodeDef).getField("translation");
 
         translationField.setSFVec3f(position);
     }

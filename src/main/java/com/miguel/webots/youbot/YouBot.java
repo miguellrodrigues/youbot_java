@@ -15,7 +15,10 @@ public class YouBot {
     private Base base;
     private Gripper gripper;
     private Angle angle;
+
     private String def;
+    private Vector position;
+    private Matrix rotationMatrix;
 
     public YouBot(Controller controller) {
         this.controller = controller;
@@ -26,6 +29,9 @@ public class YouBot {
         this.angle = new Angle();
 
         this.def = "youBot";
+
+        this.position = new Vector(controller.getObjectPosition(def));
+        this.rotationMatrix = new Matrix(3, 3, false);
     }
 
     public void passiveWait(double seconds) {
@@ -37,15 +43,14 @@ public class YouBot {
     }
 
     public double getRotationAngle() {
-        Matrix rotation = new Matrix(3, 3, false);
+        this.rotationMatrix.assignArray(controller.getObjectOrientation(this.def));
 
-        rotation.assignArray(controller.getObjectOrientation(this.def));
-
-        return this.angle.calculateAngle(rotation);
+        return this.angle.calculateAngle(this.rotationMatrix);
     }
 
     public Vector getPosition() {
-        return new Vector(controller.getObjectPosition(this.def));
+        this.position.update(this.controller.getObjectPosition(def));
+        return this.position;
     }
 
     public void setArmsPosition(List<Arm.Arms> arms, double[] positions) {

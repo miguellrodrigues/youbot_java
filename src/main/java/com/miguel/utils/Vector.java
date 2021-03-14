@@ -18,6 +18,12 @@ public class Vector {
         new Vector(values[0], values[1], values[2]);
     }
 
+    public void update(@NotNull double[] values) {
+        this.x = values[0];
+        this.y = values[1];
+        this.z = values[2];
+    }
+
     void add(@NotNull Vector other) {
         this.x += other.x;
         this.y += other.y;
@@ -107,5 +113,14 @@ public class Vector {
         this.x = .0;
         this.y = .0;
         this.z = .0;
+    }
+
+    @Override
+    public String toString() {
+        return "Vector{" +
+                "x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                '}';
     }
 }

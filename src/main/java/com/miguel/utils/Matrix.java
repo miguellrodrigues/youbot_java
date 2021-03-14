@@ -2,32 +2,52 @@ package com.miguel.utils;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Matrix {
 
     private int rows;
     private int cols;
 
-    private double data[][];
+//    private double data[][];
+
+    private List<List<Double>> data;
 
     public Matrix(int rows, int cols, boolean isRandom) {
         this.rows = rows;
         this.cols = cols;
 
-        this.data = new double[rows][cols];
+        this.data = new ArrayList<>();
+
+//        this.data = new double[rows][cols];
 
         if (isRandom) {
             for (int i = 0; i < rows; ++i) {
+                List<Double> data = new ArrayList<>();
+
                 for (int j = 0; j < cols; ++j) {
-                    this.data[i][j] = .0;
+//                    this.data[i][j] = .0;
+
+                    data.add(.0);
                 }
+
+                this.data.add(data);
             }
         } else {
             for (int i = 0; i < rows; ++i) {
+                List<Double> data = new ArrayList<>();
                 for (int j = 0; j < cols; ++j) {
-                    this.data[i][j] = Numbers.randomDouble(-.501, .501);
+                    data.add(Numbers.randomDouble(-.501, .501));
+//                    this.data[i][j] = Numbers.randomDouble(-.501, .501);
                 }
+                this.data.add(data);
             }
         }
+    }
+
+    void clear() {
+        this.data.clear();
     }
 
     public int getRows() {
@@ -39,11 +59,11 @@ public class Matrix {
     }
 
     public void setValue(int row, int col, double value) {
-        this.data[row][col] = value;
+        this.data.get(row).set(col, value);
     }
 
     public double getValue(int row, int col) {
-        return this.data[row][col];
+        return this.data.get(row).get(col);
     }
 
     public Matrix transpose() {
@@ -124,5 +144,41 @@ public class Matrix {
                 this.setValue(i, j, this.getValue(i, j) * x);
             }
         }
+    }
+
+    public Matrix copy() {
+        Matrix mat = new Matrix(this.rows, this.cols, false);
+
+        for (int i = 0; i < this.rows; ++i) {
+            for (int j = 0; j < this.cols; ++j) {
+                mat.setValue(i, j, this.getValue(i, j));
+            }
+        }
+
+        return mat;
+    }
+
+    @NotNull
+    public static Matrix listToMatrix(@NotNull List<Double> list) {
+        Matrix mat = new Matrix(list.size(), 1, false);
+
+        for (int i = 0; i < list.size(); ++i) {
+            mat.setValue(i, 0, list.get(i));
+        }
+
+        return mat;
+    }
+
+    @NotNull
+    public static List<Double> matrixToList(@NotNull Matrix mat) {
+        List<Double> list = new ArrayList<>();
+
+        for (int i = 0; i < mat.getRows(); ++i) {
+            for (int j = 0; j < mat.getCols(); ++j) {
+                list.add(mat.getValue(i, j));
+            }
+        }
+
+        return list;
     }
 }
