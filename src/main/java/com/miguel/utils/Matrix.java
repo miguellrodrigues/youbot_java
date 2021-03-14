@@ -38,15 +38,15 @@ public class Matrix {
         return cols;
     }
 
-    void setValue(int row, int col, double value) {
+    public void setValue(int row, int col, double value) {
         this.data[row][col] = value;
     }
 
-    double getValue(int row, int col) {
+    public double getValue(int row, int col) {
         return this.data[row][col];
     }
 
-    Matrix transpose() {
+    public Matrix transpose() {
         Matrix mat = new Matrix(this.cols, this.rows, false);
 
         for (int i = 0; i < this.rows; ++i) {
@@ -58,7 +58,7 @@ public class Matrix {
         return mat;
     }
 
-    Matrix hadamard(Matrix other) {
+    public Matrix hadamard(Matrix other) {
         Matrix mat = new Matrix(this.rows, this.cols, false);
 
         for (int i = 0; i < this.rows; ++i) {
@@ -70,7 +70,7 @@ public class Matrix {
         return mat;
     }
 
-    Matrix multiply(@NotNull Matrix other) {
+    public Matrix multiply(@NotNull Matrix other) {
         Matrix mat = new Matrix(this.rows, other.cols, false);
 
         double aux;
@@ -90,7 +90,7 @@ public class Matrix {
         return mat;
     }
 
-    void assignArray(double[] array) {
+    public void assignArray(double[] array) {
         if (this.rows * this.cols != array.length) {
             throw new Error("Assign array bad arguments");
         }
@@ -102,7 +102,7 @@ public class Matrix {
         }
     }
 
-    void add(Matrix other) {
+    public void add(Matrix other) {
         for (int i = 0; i < this.rows; ++i) {
             for (int j = 0; j < this.cols; ++j) {
                 this.setValue(i, j, this.getValue(i, j) + other.getValue(i, j));
@@ -110,7 +110,7 @@ public class Matrix {
         }
     }
 
-    void subtract(Matrix other) {
+    public void subtract(Matrix other) {
         for (int i = 0; i < this.rows; ++i) {
             for (int j = 0; j < this.cols; ++j) {
                 this.setValue(i, j, this.getValue(i, j) - other.getValue(i, j));
@@ -118,7 +118,7 @@ public class Matrix {
         }
     }
 
-    void scalar(double x) {
+    public void scalar(double x) {
         for (int i = 0; i < this.rows; ++i) {
             for (int j = 0; j < this.cols; ++j) {
                 this.setValue(i, j, this.getValue(i, j) * x);
