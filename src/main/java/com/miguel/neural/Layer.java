@@ -7,10 +7,9 @@ import java.util.List;
 
 public class Layer {
 
-    private int neuronsSize;
+    private final int neuronsSize;
 
-    private List<Neuron> neurons;
-
+    private final List<Neuron> neurons;
 
     public Layer(int neuronsSize) {
         this.neuronsSize = neuronsSize;

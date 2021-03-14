@@ -1,9 +1,12 @@
 package com.miguel.utils;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Numbers {
 
     public static double randomDouble(double min, double max) {
-        return (Math.random() * ((max - min) + 1)) + min;
+        return (ThreadLocalRandom.current().nextDouble() * ((max - min) + 1.0)) + min;
     }
 
     public static int randomInt(int min, int max) {
@@ -19,11 +22,11 @@ public class Numbers {
     }
 
     public static double fastSigmoid(double d) {
-        return d / (1 + Math.abs(d));
+        return (d / (1 + Math.abs(d)));
     }
 
     public static double fastSigmoidDerivative(double d) {
-        return 1 / (Math.pow(1 + Math.abs(d), 2.0));
+        return (1 / (Math.pow(1 + Math.abs(d), 2.0)));
     }
 
     public static double normalize(double r) { return Math.atan2(Math.sin(r), Math.cos(r)); }

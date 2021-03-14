@@ -18,7 +18,7 @@ public class Network {
     private List<Double> errors;
     private List<Double> derivedErrors;
 
-    private double bias = 0.1;
+    private double bias = 0.02;
     private double fitness;
 
     public Network(@NotNull List<Integer> topology) {
@@ -67,7 +67,7 @@ public class Network {
         }
     }
 
-    void feedForward() {
+    public void feedForward() {
         Matrix left, right, r;
 
         for (int i = 0; i < (this.topologySize - 1); ++i) {
@@ -77,7 +77,7 @@ public class Network {
                 left = this.layers.get(i).convertValues();
             }
 
-            right = this.weightMatrices.get(i);
+            right = this.weightMatrices.get(i).copy();
 
             r = right.multiply(left);
 
@@ -87,8 +87,8 @@ public class Network {
         }
     }
 
-    List<Double> predict(List<Double> input) {
-        setCurrentInput(Matrix.listToMatrix(input));
+    public List<Double> predict(List<Double> input) {
+        this.setCurrentInput(Matrix.listToMatrix(input));
         this.feedForward();
 
         Matrix outputMatrix = this.layers.get(this.topologySize - 1).convertActivatedValues();
@@ -98,7 +98,7 @@ public class Network {
 
     public void mutate(double rate) {
         for (Matrix weightMatrix : this.weightMatrices) {
-            int count = (int) rate * weightMatrix.getCols();
+            double count = rate * weightMatrix.getCols();
 
             int randomRow = Numbers.randomInt(0, weightMatrix.getRows() - 1);
 
@@ -131,7 +131,7 @@ public class Network {
             Matrix motherWeights = mother.weightMatrices.get(i);
 
             for (int j = 0; j < fatherWeights.getRows(); ++j) {
-                for (int k = 0; k < fatherWeights.getCols(); ++j) {
+                for (int k = 0; k < fatherWeights.getCols(); ++k) {
                     if (Numbers.randomDouble(.0, 1.0) < .5) {
                         child.weightMatrices.get(i).setValue(j, k, fatherWeights.getValue(j, k));
                     } else {

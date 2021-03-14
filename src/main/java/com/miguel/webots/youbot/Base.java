@@ -28,11 +28,11 @@ public class Base {
         }
     }
 
-    void setWheelSpeed(int index, double velocity) {
+    public void setWheelSpeed(int index, double velocity) {
         this.wheels.get(index).setVelocity(velocity);
     }
 
-    void setWheelsSpeed(@NotNull double[] speeds) {
+    public void setWheelsSpeed(@NotNull double[] speeds) {
         for (int i = 0; i < speeds.length; ++i) {
             this.setWheelSpeed(i, speeds[i]);
         }

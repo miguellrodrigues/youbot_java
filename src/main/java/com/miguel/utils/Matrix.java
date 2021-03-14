@@ -7,12 +7,12 @@ import java.util.List;
 
 public class Matrix {
 
-    private int rows;
-    private int cols;
+    private final int rows;
+    private final int cols;
 
 //    private double data[][];
 
-    private List<List<Double>> data;
+    private final List<List<Double>> data;
 
     public Matrix(int rows, int cols, boolean isRandom) {
         this.rows = rows;
@@ -28,8 +28,7 @@ public class Matrix {
 
                 for (int j = 0; j < cols; ++j) {
 //                    this.data[i][j] = .0;
-
-                    data.add(.0);
+                    data.add(Numbers.randomDouble(-1.0, 1.0));
                 }
 
                 this.data.add(data);
@@ -38,7 +37,7 @@ public class Matrix {
             for (int i = 0; i < rows; ++i) {
                 List<Double> data = new ArrayList<>();
                 for (int j = 0; j < cols; ++j) {
-                    data.add(Numbers.randomDouble(-.501, .501));
+                    data.add(.0);
 //                    this.data[i][j] = Numbers.randomDouble(-.501, .501);
                 }
                 this.data.add(data);
