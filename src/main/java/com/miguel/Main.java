@@ -1,16 +1,18 @@
 package com.miguel;
 
-import com.cyberbotics.webots.controller.Robot;
+import com.miguel.webots.Controller;
+import com.miguel.webots.youbot.YouBot;
 
 public class Main {
 
     public static void main(String[] args) {
-        Robot robot = new Robot();
+        Controller controller = new Controller(14, true);
+        YouBot youBot = new YouBot(controller);
 
-        while (robot.step(14) != -1) {
-
+        while (controller.step() != -1) {
+            System.out.println(youBot.getRotationAngle());
         }
 
-        robot.delete();
+        controller.getSupervisor().delete();
     }
 }

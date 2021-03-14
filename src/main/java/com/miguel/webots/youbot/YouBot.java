@@ -28,7 +28,7 @@ public class YouBot {
         this.def = "youBot";
     }
 
-    void passiveWait(double seconds) {
+    public void passiveWait(double seconds) {
         double startTime = this.controller.getSupervisor().getTime();
 
         while (startTime + seconds > this.controller.getSupervisor().getTime()) {
@@ -36,7 +36,7 @@ public class YouBot {
         }
     }
 
-    double getRotationAngle() {
+    public double getRotationAngle() {
         Matrix rotation = new Matrix(3, 3, false);
 
         rotation.assignArray(controller.getObjectOrientation(this.def));
@@ -44,31 +44,31 @@ public class YouBot {
         return this.angle.calculateAngle(rotation);
     }
 
-    Vector getPosition() {
+    public Vector getPosition() {
         return new Vector(controller.getObjectPosition(this.def));
     }
 
-    void setArmsPosition(List<Arm.Arms> arms, double[] positions) {
+    public void setArmsPosition(List<Arm.Arms> arms, double[] positions) {
         this.arm.setArmsPosition(arms, positions);
     }
 
-    void armReset() {
+    public void armReset() {
         this.arm.reset();
     }
 
-    void grip() {
+    public void grip() {
         this.gripper.grip();
     }
 
-    void release() {
+    public void release() {
         this.gripper.release();
     }
 
-    void setWheelsSpeed(double[] speeds) {
+    public void setWheelsSpeed(double[] speeds) {
         this.base.setWheelsSpeed(speeds);
     }
 
-    void setGripperOrientation(double r) {
+    public void setGripperOrientation(double r) {
         this.arm.setSubRotation(Arm.Arms.ARM5, r);
     }
 }

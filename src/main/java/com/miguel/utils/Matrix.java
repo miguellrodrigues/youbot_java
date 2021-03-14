@@ -96,7 +96,7 @@ public class Matrix {
         }
 
         for (int i = 0, count = 0; i < this.rows; ++i) {
-            for (int j = 0; i < this.cols; ++j) {
+            for (int j = 0; j < this.cols; ++j) {
                 this.setValue(i, j, array[count++]);
             }
         }
